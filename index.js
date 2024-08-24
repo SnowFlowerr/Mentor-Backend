@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import router from "../Backend/routes/route.js" 
+import router from "./routes/route.js"
 import dotenv from "dotenv"
 
 
@@ -17,5 +17,4 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
   })
   .catch((err) => console.log(err));
 
-  
 app.use("/", router);
