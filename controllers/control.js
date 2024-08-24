@@ -1,23 +1,19 @@
 import model from "../models/model.js";
 import run from "../Utils/cloudinary.js";
-import fs from 'fs'
+
 const addmentor= async (req,res)=>{
   try{
-    const final={...req.files[0],...req.body}
+    const data1=req.files[0]
+    const data2=req.files[1]
+    const final=req.body
 
-    
-    const url = await run(final)
+    const url1 = await run(data1)
+    const url2 = await run(data2)
 
-    const createdmentor= await model.create({ mentorname: final.name, phone: final.text,
-       email:final.text, address:final.text, profile: url, resume:url, portfolio:final.text })
+    const createdmentor= await model.create({ mentorname: final.mentorname, phone: final.phone, email:final.email, address:final.address, profile: url1, resume:url2, portfolio:final.portfolio })
 
-       fs.unlink(final.path, (err) => {
-        if (err) {
-            console.log(err)
-            return
-        }
-    })
-    res.status(201).send({ status:"mentor Added Successfully",message:createdmentor})
+
+    res.status(201).send({ status:"mentor Added Successfully",message: createdmentor})
   }
   catch(error){
     return res.status(400).send({
